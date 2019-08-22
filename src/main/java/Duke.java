@@ -24,8 +24,8 @@ public class Duke {
                 break;
 
             case "done":
-                int index = Integer.parseInt(parameters[1]);
-                duke.markAsDone(index);
+                int doneIndex = Integer.parseInt(parameters[1]);
+                duke.markAsDone(doneIndex);
                 break;
 
             case "todo":
@@ -45,6 +45,11 @@ public class Duke {
             case "event":
                 String[] eventInfo = input.substring(6).split(" /at ");
                 duke.addEvent(eventInfo[0], eventInfo[1]);
+                break;
+
+            case "delete":
+                int deleteIndex = Integer.parseInt(parameters[1]);
+                duke.deleteTask(deleteIndex);
                 break;
 
             default:
@@ -119,6 +124,12 @@ public class Duke {
         Task task = tasks.get(index - 1);
         task.markAsDone();
         String[] messages = {"Nice! I've marked this task as done:", "  " + task.toString()};
+        prettyPrint(messages);
+    }
+
+    private void deleteTask(int index) {
+        Task deletedTask = tasks.remove(index - 1);
+        String[] messages = {"Noted. I've removed this task:", "  " + deletedTask, listSummary()};
         prettyPrint(messages);
     }
 }
