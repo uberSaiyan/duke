@@ -29,8 +29,12 @@ public class Duke {
                 break;
 
             case "todo":
-                String description = input.substring(5);
-                duke.addTodo(description);
+                try {
+                    String description = input.substring(5);
+                    duke.addTodo(description);
+                } catch (StringIndexOutOfBoundsException e) {
+                    prettyPrint(new String[]{"☹ OOPS!!! The description of a todo cannot be empty."});
+                }
                 break;
 
             case "deadline":
@@ -44,6 +48,7 @@ public class Duke {
                 break;
 
             default:
+                prettyPrint(new String[]{"☹ OOPS!!! I'm sorry, but I don't know what that means :-("});
             }
         }
     }
