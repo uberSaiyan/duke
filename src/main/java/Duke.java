@@ -28,8 +28,22 @@ public class Duke {
                 duke.markAsDone(index);
                 break;
 
+            case "todo":
+                String description = input.substring(5);
+                duke.addTodo(description);
+                break;
+
+            case "deadline":
+                String[] deadlineInfo = input.substring(9).split(" /by ");
+                duke.addDeadline(deadlineInfo[0], deadlineInfo[1]);
+                break;
+
+            case "event":
+                String[] eventInfo = input.substring(6).split(" /at ");
+                duke.addEvent(eventInfo[0], eventInfo[1]);
+                break;
+
             default:
-                duke.addTask(input);
             }
         }
     }
@@ -46,27 +60,46 @@ public class Duke {
 
     private List<Task> tasks;
 
-    public Duke() {
+    private Duke() {
         tasks = new ArrayList<>();
     }
 
-    public void greet() {
+    private void greet() {
         String[] greetings = {"Hello, I'm Duke", "What can I do for you?"};
         prettyPrint(greetings);
     }
 
-    public void goodbye() {
+    private void goodbye() {
         String[] goodbye = {"Bye. Hope to see you again soon!"};
         prettyPrint(goodbye);
     }
 
-    public void addTask(String input) {
-        tasks.add(new Task(input));
-        String[] msg = {"added: " + input};
-        prettyPrint(msg);
+    private void addTodo(String description) {
+        Task newTask = new Todo(description);
+        tasks.add(newTask);
+        String[] messages = {"Got it. I've added this task:", "  " + newTask.toString(), listSummary()};
+        prettyPrint(messages);
     }
 
-    public void listTasks() {
+    private void addDeadline(String description, String by) {
+        Task newTask = new Deadline(description, by);
+        tasks.add(newTask);
+        String[] messages = {"Got it. I've added this task:", "  " + newTask.toString(), listSummary()};
+        prettyPrint(messages);
+    }
+
+    private void addEvent(String description, String at) {
+        Task newTask = new Event(description, at);
+        tasks.add(newTask);
+        String[] messages = {"Got it. I've added this task:", "  " + newTask.toString(), listSummary()};
+        prettyPrint(messages);
+    }
+
+    private String listSummary() {
+        return String.format("Now you have %d tasks in the list.", tasks.size());
+    }
+
+    private void listTasks() {
         String[] messages = new String[tasks.size() + 1];
         messages[0] = "Here are the tasks in your list:";
         for (int i = 0; i < tasks.size(); i++) {
@@ -77,7 +110,7 @@ public class Duke {
         prettyPrint(messages);
     }
 
-    public void markAsDone(int index) {
+    private void markAsDone(int index) {
         Task task = tasks.get(index - 1);
         task.markAsDone();
         String[] messages = {"Nice! I've marked this task as done:", "  " + task.toString()};
