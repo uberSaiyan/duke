@@ -65,7 +65,7 @@ public class Duke {
     }
 
     private void greet() {
-        String[] greetings = {"Hello, I'm Duke", "What can I do for you?"};
+        String[] greetings = {"Hello! I'm Duke", "What can I do for you?"};
         prettyPrint(greetings);
     }
 
