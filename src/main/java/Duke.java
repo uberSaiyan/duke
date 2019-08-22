@@ -1,9 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Duke {
+    private List<String> tasks;
+
+    public Duke() {
+        tasks = new ArrayList<>();
+    }
+
     public static void main(String[] args) {
         Duke duke = new Duke();
-        prettyPrint(duke.greetings());
+        duke.greet();
 
         Scanner sc = new Scanner(System.in);
         while (sc.hasNext()) {
@@ -13,12 +21,16 @@ public class Duke {
 
             switch (command) {
             case "bye":
-                prettyPrint(duke.goodbye());
+                duke.goodbye();
                 System.exit(0);
                 break;
 
+            case "list":
+                duke.listTasks();
+                break;
+
             default:
-                prettyPrint(duke.echo(command));
+                duke.addTask(input);
             }
         }
     }
@@ -33,18 +45,28 @@ public class Duke {
         System.out.println(indentation + linebreak);
     }
 
-    public String[] greetings() {
+    public void greet() {
         String[] greetings = {"Hello, I'm Duke", "What can I do for you?"};
-        return greetings;
+        prettyPrint(greetings);
     }
 
-    public String[] goodbye() {
+    public void goodbye() {
         String[] goodbye = {"Bye. Hope to see you again soon!"};
-        return goodbye;
+        prettyPrint(goodbye);
     }
 
-    public String[] echo(String input) {
-        String[] echo = {input};
-        return echo;
+    public void addTask(String input) {
+        tasks.add(input);
+        String[] msg = {"added: " + input};
+        prettyPrint(msg);
+    }
+
+    public void listTasks() {
+        String[] messages = new String[tasks.size()];
+        for (int i = 0; i < tasks.size(); i++) {
+            String task = tasks.get(i);
+            messages[i] = String.format("%d. %s", (i + 1), task);
+        }
+        prettyPrint(messages);
     }
 }
