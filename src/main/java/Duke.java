@@ -3,12 +3,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Duke {
-    private List<String> tasks;
-
-    public Duke() {
-        tasks = new ArrayList<>();
-    }
-
     public static void main(String[] args) {
         Duke duke = new Duke();
         duke.greet();
@@ -29,6 +23,11 @@ public class Duke {
                 duke.listTasks();
                 break;
 
+            case "done":
+                int index = Integer.parseInt(parameters[1]);
+                duke.markAsDone(index);
+                break;
+
             default:
                 duke.addTask(input);
             }
@@ -45,6 +44,12 @@ public class Duke {
         System.out.println(indentation + linebreak);
     }
 
+    private List<Task> tasks;
+
+    public Duke() {
+        tasks = new ArrayList<>();
+    }
+
     public void greet() {
         String[] greetings = {"Hello, I'm Duke", "What can I do for you?"};
         prettyPrint(greetings);
@@ -56,17 +61,26 @@ public class Duke {
     }
 
     public void addTask(String input) {
-        tasks.add(input);
+        tasks.add(new Task(input));
         String[] msg = {"added: " + input};
         prettyPrint(msg);
     }
 
     public void listTasks() {
-        String[] messages = new String[tasks.size()];
+        String[] messages = new String[tasks.size() + 1];
+        messages[0] = "Here are the tasks in your list:";
         for (int i = 0; i < tasks.size(); i++) {
-            String task = tasks.get(i);
-            messages[i] = String.format("%d. %s", (i + 1), task);
+            Task task = tasks.get(i);
+            int msgIndex = i + 1;
+            messages[msgIndex] = String.format("%d.%s", msgIndex, task);
         }
+        prettyPrint(messages);
+    }
+
+    public void markAsDone(int index) {
+        Task task = tasks.get(index - 1);
+        task.markAsDone();
+        String[] messages = {"Nice! I've marked this task as done:", "  " + task.toString()};
         prettyPrint(messages);
     }
 }
