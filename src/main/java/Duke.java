@@ -8,10 +8,8 @@ public class Duke {
         Scanner sc = new Scanner(System.in);
         while (sc.hasNext()) {
             String input = sc.nextLine();
-            String[] parameters = input.split(" ");
-            String command = parameters[0];
 
-            switch (command) {
+            switch (input.split(" ")[0]) {
             case "bye":
                 chatbot.goodbye();
                 System.exit(0);
@@ -22,13 +20,11 @@ public class Duke {
                 break;
 
             case "done":
-                int doneIndex = Integer.parseInt(parameters[1]);
-                chatbot.markAsDone(doneIndex);
+                chatbot.markAsDone(input.substring(4));
                 break;
 
             case "delete":
-                int deleteIndex = Integer.parseInt(parameters[1]);
-                chatbot.deleteTask(deleteIndex);
+                chatbot.deleteTask(input.substring(6));
                 break;
 
             case "todo":

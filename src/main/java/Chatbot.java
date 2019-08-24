@@ -1,4 +1,6 @@
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 public class Chatbot {
@@ -30,24 +32,36 @@ public class Chatbot {
 
     public void addTask(String input, TaskType taskType) {
         switch (taskType) {
-            case TODO:
-                try {
-                    String description = input.substring(5);
-                    addTodo(description);
-                } catch (StringIndexOutOfBoundsException e) {
-                    prettyPrint(new String[]{"☹ OOPS!!! The description of a todo cannot be empty."});
-                }
-                break;
+        case TODO:
+            try {
+                String description = input.substring(4);
+                addTodo(description);
+            } catch (DukeException e) {
+                prettyPrint(new String[]{"☹ OOPS!!! The description of a todo cannot be empty."});
+            }
+            break;
 
-            case DEADLINE:
-                String[] deadlineInfo = input.substring(9).split(" /by ");
-                addDeadline(deadlineInfo[0], deadlineInfo[1]);
-                break;
+        case DEADLINE:
+            try {
+                String deadlineInfo = input.substring(8);
+                addDeadline(deadlineInfo);
+            } catch (DukeException e) {
+                prettyPrint(new String[]{"☹ OOPS!!! The description of a deadline cannot be empty."});
+            } catch (ParseException e) {
+                prettyPrint(new String[]{"☹ OOPS!!! The input date is invalid."});
+            }
+            break;
 
-            case EVENT:
-                String[] eventInfo = input.substring(6).split(" /at ");
-                addEvent(eventInfo[0], eventInfo[1]);
-                break;
+        case EVENT:
+            try {
+                String eventInfo = input.substring(5);
+                addEvent(eventInfo);
+            } catch (DukeException e) {
+                prettyPrint(new String[]{"☹ OOPS!!! The description of an event cannot be empty."});
+            } catch (ParseException e) {
+                prettyPrint(new String[]{"☹ OOPS!!! The input date is invalid."});
+            }
+            break;
         }
     }
 
@@ -62,17 +76,31 @@ public class Chatbot {
         prettyPrint(messages);
     }
 
-    public void markAsDone(int index) {
-        Task task = tasks.get(index - 1);
-        task.markAsDone();
-        String[] messages = {"Nice! I've marked this task as done:", "  " + task.toString()};
-        prettyPrint(messages);
+    public void markAsDone(String input) {
+        try {
+            int index = Integer.parseInt(input);
+            Task task = tasks.get(index - 1);
+            task.markAsDone();
+            String[] messages = {"Nice! I've marked this task as done:", "  " + task.toString()};
+            prettyPrint(messages);
+        } catch (InputMismatchException e) {
+            prettyPrint(new String[]{"☹ OOPS!!! Please input an integer index."});
+        } catch (IndexOutOfBoundsException e) {
+            prettyPrint(new String[]{"☹ OOPS!!! Index is out of bounds."});
+        }
     }
 
-    public void deleteTask(int index) {
-        Task deletedTask = tasks.remove(index - 1);
-        String[] messages = {"Noted. I've removed this task:", "  " + deletedTask, listSummary()};
-        prettyPrint(messages);
+    public void deleteTask(String input) {
+        try {
+            int index = Integer.parseInt(input);
+            Task deletedTask = tasks.remove(index - 1);
+            String[] messages = {"Noted. I've removed this task:", "  " + deletedTask, listSummary()};
+            prettyPrint(messages);
+        } catch (InputMismatchException e) {
+            prettyPrint(new String[]{"☹ OOPS!!! Please input an integer index."});
+        } catch (IndexOutOfBoundsException e) {
+            prettyPrint(new String[]{"☹ OOPS!!! Index is out of bounds."});
+        }
     }
 
     public void apologize() {
@@ -80,21 +108,23 @@ public class Chatbot {
     }
 
     private void addTodo(String description) {
-        Task newTask = new Todo(description);
+        Task newTask = Todo.of(description.trim());
         tasks.add(newTask);
         String[] messages = {"Got it. I've added this task:", "  " + newTask.toString(), listSummary()};
         prettyPrint(messages);
     }
 
-    private void addDeadline(String description, String by) {
-        Task newTask = new Deadline(description, by);
+    private void addDeadline(String deadlineInfo) throws ParseException {
+        String[] info = deadlineInfo.split(" /by ");
+        Task newTask = Deadline.by(info[0].trim(), info[1]);
         tasks.add(newTask);
         String[] messages = {"Got it. I've added this task:", "  " + newTask.toString(), listSummary()};
         prettyPrint(messages);
     }
 
-    private void addEvent(String description, String at) {
-        Task newTask = new Event(description, at);
+    private void addEvent(String eventInfo) throws ParseException {
+        String[] info = eventInfo.split(" /at ");
+        Task newTask = Event.at(info[0].trim(), info[1]);
         tasks.add(newTask);
         String[] messages = {"Got it. I've added this task:", "  " + newTask.toString(), listSummary()};
         prettyPrint(messages);
