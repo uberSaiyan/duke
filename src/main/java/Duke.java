@@ -6,7 +6,7 @@ public class Duke {
         chatbot.greet();
 
         Scanner sc = new Scanner(System.in);
-        while (sc.hasNext()) {
+        while (true) {
             String input = sc.nextLine();
             String[] parameters = input.split(" ");
             String command = parameters[0];

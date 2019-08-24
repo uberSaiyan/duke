@@ -15,6 +15,10 @@ public abstract class Task {
         isDone = true;
     }
 
+    public String convertToWritable() {
+        return String.format("%d | %s", isDone ? 1 : 0, description);
+    }
+
     @Override
     public String toString() {
         return String.format("[%s] %s", getStatusIcon(), description);
