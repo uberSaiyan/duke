@@ -1,11 +1,19 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Chatbot {
+    private static final String FILEPATH = "data/duke.txt";
     private List<Task> tasks;
 
     public Chatbot() {
-        tasks = new ArrayList<>();
+        try {
+            tasks = TaskListSaver.deserialize(FILEPATH);
+        } catch (FileNotFoundException e) {
+            System.out.println("Previous saved data not found.");
+            tasks = new ArrayList<>();
+        }
     }
 
     private static void prettyPrint(String[] messages) {
@@ -26,28 +34,33 @@ public class Chatbot {
     public void goodbye() {
         String[] goodbye = {"Bye. Hope to see you again soon!"};
         prettyPrint(goodbye);
+        try {
+            TaskListSaver.serialize(FILEPATH, tasks);
+        } catch (IOException e) {
+            System.out.println("Error while saving data: " + e.getMessage());
+        }
     }
 
     public void addTask(String input, TaskType taskType) {
         switch (taskType) {
-            case TODO:
-                try {
-                    String description = input.substring(5);
-                    addTodo(description);
-                } catch (StringIndexOutOfBoundsException e) {
-                    prettyPrint(new String[]{"☹ OOPS!!! The description of a todo cannot be empty."});
-                }
-                break;
+        case TODO:
+            try {
+                String description = input.substring(5);
+                addTodo(description);
+            } catch (StringIndexOutOfBoundsException e) {
+                prettyPrint(new String[]{"☹ OOPS!!! The description of a todo cannot be empty."});
+            }
+            break;
 
-            case DEADLINE:
-                String[] deadlineInfo = input.substring(9).split(" /by ");
-                addDeadline(deadlineInfo[0], deadlineInfo[1]);
-                break;
+        case DEADLINE:
+            String[] deadlineInfo = input.substring(9).split(" /by ");
+            addDeadline(deadlineInfo[0], deadlineInfo[1]);
+            break;
 
-            case EVENT:
-                String[] eventInfo = input.substring(6).split(" /at ");
-                addEvent(eventInfo[0], eventInfo[1]);
-                break;
+        case EVENT:
+            String[] eventInfo = input.substring(6).split(" /at ");
+            addEvent(eventInfo[0], eventInfo[1]);
+            break;
         }
     }
 
