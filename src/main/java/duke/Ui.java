@@ -33,7 +33,7 @@ public class Ui {
         showError(msg, 5);
     }
 
-    public void showError(String msg, int indentCount) {
+    private void showError(String msg, int indentCount) {
         for (int i = 0; i < indentCount; i++) {
             msg = " " + msg;
         }
