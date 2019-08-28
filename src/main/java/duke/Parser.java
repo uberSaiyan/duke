@@ -71,6 +71,14 @@ public class Parser {
                 throw new DukeException("Error while parsing input.");
             }
 
+        case "find":
+            String searchText = fullCommand.substring(4).trim();
+            if (searchText.length() > 0) {
+                return new FindCommand(searchText);
+            } else {
+                throw new DukeException("☹ OOPS!!! The search text of a find command cannot be empty.");
+            }
+
         default:
             return new InvalidCommand();
         }
