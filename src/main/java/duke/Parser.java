@@ -13,7 +13,7 @@ public class Parser {
      * @return A Date object
      * @throws ParseException
      */
-    public static Date parseDate(String dateString) throws ParseException {
+    private static Date parseDate(String dateString) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy HHmm").parse(dateString);
     }
 
