@@ -12,6 +12,10 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    /**
+     * Deserializes the saved data from hard disk
+     * @return A list of Task objects
+     */
     public List<Task> load() {
         try {
             FileInputStream file = new FileInputStream(filePath);
@@ -28,6 +32,10 @@ public class Storage {
         }
     }
 
+    /**
+     * Serializes the input list of Tasks into a file
+     * @param tasks A list of Task objects
+     */
     public void save(List<Task> tasks) {
         try {
             FileOutputStream file = new FileOutputStream(filePath);

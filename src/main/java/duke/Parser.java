@@ -7,10 +7,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Parser {
+    /**
+     * Converts a string into a corresponding date, if valid
+     * @param dateString A string in the form dd/MM/yyyy
+     * @return A Date object
+     * @throws ParseException
+     */
     public static Date parseDate(String dateString) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy HHmm").parse(dateString);
     }
 
+    /**
+     * Parses the input string into a command, if valid
+     * @param fullCommand Any input from command line
+     * @return A Command object
+     */
     public static Command parse(String fullCommand) {
         String command = fullCommand.split(" ")[0];
 
