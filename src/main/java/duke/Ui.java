@@ -1,5 +1,8 @@
 package duke;
 
+import duke.task.Task;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Ui {
@@ -49,5 +52,11 @@ public class Ui {
             msg = " " + msg;
         }
         System.out.println(msg);
+    }
+
+    public void show(List<Task> tasks) {
+        for (int i = 0; i < tasks.size(); i++) {
+            show(String.format("%d.%s", (i + 1), tasks.get(i).toString()));
+        }
     }
 }
