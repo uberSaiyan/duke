@@ -17,7 +17,9 @@ public class DeleteCommand extends Command {
     public void execute(TaskList taskList, Ui ui, Storage storage) {
         try {
             Task task = taskList.remove(index - 1);
-            ui.show(task.toString());
+            ui.show("Noted. I've removed this task:");
+            ui.show(task.toString(), 7);
+            ui.show(String.format("Now you have %d tasks in the list.", taskList.size()));
         } catch (IndexOutOfBoundsException e) {
             throw new DukeException("Invalid index.");
         }
