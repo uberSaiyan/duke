@@ -1,47 +1,38 @@
-import java.util.Scanner;
-
 public class Duke {
-    public static void main(String[] args) {
-        Chatbot chatbot = new Chatbot();
-        chatbot.greet();
+    private Storage storage;
+    private TaskList taskList;
+    private Ui ui;
 
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            String input = sc.nextLine();
+    public Duke(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
+        try {
+            taskList = new TaskList(storage.load());
+        } catch (DukeException e) {
+            ui.showLoadingError();
+            taskList = new TaskList();
+        }
+    }
 
-            switch (input.split(" ")[0]) {
-            case "bye":
-                chatbot.goodbye();
-                System.exit(0);
-                break;
-
-            case "list":
-                chatbot.listTasks();
-                break;
-
-            case "done":
-                chatbot.markAsDone(input.substring(4));
-                break;
-
-            case "delete":
-                chatbot.deleteTask(input.substring(6));
-                break;
-
-            case "todo":
-                chatbot.addTask(input, TaskType.TODO);
-                break;
-
-            case "deadline":
-                chatbot.addTask(input, TaskType.DEADLINE);
-                break;
-
-            case "event":
-                chatbot.addTask(input, TaskType.EVENT);
-                break;
-
-            default:
-                chatbot.apologize();
+    public void run() {
+        ui.showWelcome();
+        boolean isExit = false;
+        while (!isExit) {
+            try {
+                String fullCommand = ui.readCommand();
+                ui.showLine();
+                Command c = Parser.parse(fullCommand);
+                c.execute(taskList, ui, storage);
+                isExit = c.isExit();
+            } catch (DukeException e) {
+                ui.showError(e.getMessage());
+            } finally {
+                ui.showLine();
             }
         }
+    }
+
+    public static void main(String[] args) {
+        new Duke("data/tasks.txt").run();
     }
 }
