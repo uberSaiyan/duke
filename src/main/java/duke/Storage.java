@@ -2,7 +2,11 @@ package duke;
 
 import duke.task.Task;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 public class Storage {
@@ -13,8 +17,8 @@ public class Storage {
     }
 
     /**
-     * Deserializes the saved data from hard disk
-     * @return A list of Task objects
+     * Loads saved data from hard disk.
+     * @return A {@link List} of {@link Task}.
      */
     public List<Task> load() {
         try {
@@ -33,8 +37,8 @@ public class Storage {
     }
 
     /**
-     * Serializes the input list of Tasks into a file
-     * @param tasks A list of Task objects
+     * Saves a {@link List} of {@link Task} into a file on the hard disk.
+     * @param tasks A {@link List} of {@link Task}.
      */
     public void save(List<Task> tasks) {
         try {

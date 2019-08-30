@@ -1,6 +1,15 @@
 package duke;
 
-import duke.command.*;
+import duke.command.AddDeadlineCommand;
+import duke.command.AddEventCommand;
+import duke.command.AddTodoCommand;
+import duke.command.Command;
+import duke.command.DeleteCommand;
+import duke.command.DoneCommand;
+import duke.command.ExitCommand;
+import duke.command.FindCommand;
+import duke.command.InvalidCommand;
+import duke.command.ListCommand;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,19 +17,19 @@ import java.util.Date;
 
 public class Parser {
     /**
-     * Converts a string into a corresponding date, if valid
-     * @param dateString A string in the form dd/MM/yyyy
-     * @return A Date object
-     * @throws ParseException
+     * Converts a {@link String} into its corresponding {@link Date}.
+     * @param dateString A {@link String} in the form dd/MM/yyyy HHmm.
+     * @return A corresponding {@link Date}.
+     * @throws ParseException If dateString is not in the form dd/MM/yyyy HHmm.
      */
     private static Date parseDate(String dateString) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy HHmm").parse(dateString);
     }
 
     /**
-     * Parses the input string into a command, if valid
-     * @param fullCommand Any input from command line
-     * @return A Command object
+     * Parses a {@link String} into a {@link Command}.
+     * @param fullCommand Any {@link String}.
+     * @return A {@link Command} specified by the input {@link String}.
      */
     public static Command parse(String fullCommand) {
         String command = fullCommand.split(" ")[0];

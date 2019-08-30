@@ -16,6 +16,9 @@ public class Ui {
         return sc.nextLine();
     }
 
+    /**
+     * Prints a welcome message to standard output.
+     */
     public void showWelcome() {
         showLine();
         show("Hello! I'm Duke");
@@ -43,10 +46,19 @@ public class Ui {
         System.err.println(msg);
     }
 
+    /**
+     * Prints a {@link String} to standard output, with 5 spaces of indentation.
+     * @param msg The {@link String} to print.
+     */
     public void show(String msg) {
         show(msg, 5);
     }
 
+    /**
+     * Prints a {@link String} to standard output, with variable spaces of indentation.
+     * @param msg The {@link String} to print.
+     * @param indentCount The number of spaces to indent.
+     */
     public void show(String msg, int indentCount) {
         for (int i = 0; i < indentCount; i++) {
             msg = " " + msg;
@@ -54,6 +66,10 @@ public class Ui {
         System.out.println(msg);
     }
 
+    /**
+     * Prints a {@link List} of {@link Task} to standard output.
+     * @param tasks The {@link List} of {@link Task} to print.
+     */
     public void show(List<Task> tasks) {
         for (int i = 0; i < tasks.size(); i++) {
             show(String.format("%d.%s", (i + 1), tasks.get(i).toString()));
