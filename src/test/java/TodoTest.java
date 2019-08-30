@@ -8,13 +8,15 @@ public class TodoTest {
     @Test
     public void stringConversion_isNotDone_crossSymbol() {
         Task testTake = new Todo("This is an example.");
-        assertEquals("[T][\u2718] This is an example.", testTake.toString());
+        String crossSymbol = "\u2718"; // x symbol
+        assertEquals(String.format("[T][%s] This is an example.", crossSymbol), testTake.toString());
     }
 
     @Test
     public void stringConversion_isDone_tickSymbol() {
         Task testTask = new Todo("This is an example.");
         testTask.markAsDone();
-        assertEquals("[T][\u2713] This is an example.", testTask.toString());
+        String tickSymbol = "\u2713"; // tick symbol
+        assertEquals(String.format("[T][%s] This is an example.", tickSymbol), testTask.toString());
     }
 }

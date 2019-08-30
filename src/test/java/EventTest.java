@@ -14,7 +14,9 @@ public class EventTest {
         try {
             Task testTake = new Event("Example.",
                     new SimpleDateFormat("dd/MM/yyyy HHmm").parse("28/08/2019 1700"));
-            assertEquals("[E][\u2718] Example. (at: Wed Aug 28 17:00:00 SGT 2019)", testTake.toString());
+            String crossSymbol = "\u2718"; // x symbol
+            assertEquals(String.format("[E][%s] Example. (at: Wed Aug 28 17:00:00 SGT 2019)", crossSymbol),
+                    testTake.toString());
         } catch (ParseException e) {
             fail(); // the test should not reach this line
         }
@@ -26,7 +28,9 @@ public class EventTest {
             Task testTake = new Event("Example.",
                     new SimpleDateFormat("dd/MM/yyyy HHmm").parse("28/08/2019 1700"));
             testTake.markAsDone();
-            assertEquals("[E][\u2713] Example. (at: Wed Aug 28 17:00:00 SGT 2019)", testTake.toString());
+            String tickSymbol = "\u2713"; // tick symbol
+            assertEquals(String.format("[E][%s] Example. (at: Wed Aug 28 17:00:00 SGT 2019)", tickSymbol),
+                    testTake.toString());
         } catch (ParseException e) {
             fail(); // the test should not reach this line
         }
