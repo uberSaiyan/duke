@@ -19,8 +19,9 @@ public class Duke {
     }
 
     /**
-     * You should have your own function to generate a response to user input.
-     * Replace this stub with your completed method.
+     * Returns a response {@link String} from {@link Duke} according to input.
+     * @param input A query {@link String}.
+     * @return A corresponding {@link String} response.
      */
     public String getResponse(String input) {
         Command c = Parser.parse(input);
