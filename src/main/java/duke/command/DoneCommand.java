@@ -16,6 +16,7 @@ public class DoneCommand extends Command {
     public String execute(TaskList taskList, Storage storage) {
         try {
             Task task = taskList.get(index - 1);
+            task.markAsDone();
             return "Nice! I've marked this task as done:\n"
                     + String.format("%s\n", task.toString());
         } catch (IndexOutOfBoundsException e) {
