@@ -8,7 +8,7 @@ public class Duke {
     private Storage storage;
     private TaskList taskList;
 
-    public Duke() {
+    Duke() {
         String filePath = "data/tasks.txt";
         storage = new Storage(filePath);
         try {

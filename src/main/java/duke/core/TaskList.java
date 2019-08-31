@@ -36,6 +36,11 @@ public class TaskList {
         return this.tasks.size();
     }
 
+    /**
+     * Filters the {@link Task} in the list according to searchText.
+     * @param searchText A query {@link String}.
+     * @return A new {@link TaskList} with {@link Task} that contain searchText in its description.
+     */
     public TaskList filter(String searchText) {
         List<Task> filteredTasks = new ArrayList<>();
         for (Task task : tasks) {
@@ -51,7 +56,7 @@ public class TaskList {
         String result = "";
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
-            result += String.format("%d.%s\n", (i + 1), task.toString());
+            result += String.format("%d. %s\n", (i + 1), task.toString());
         }
         return result;
     }
