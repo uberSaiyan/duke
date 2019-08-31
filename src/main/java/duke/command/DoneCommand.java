@@ -3,7 +3,6 @@ package duke.command;
 import duke.DukeException;
 import duke.Storage;
 import duke.TaskList;
-import duke.Ui;
 import duke.task.Task;
 
 public class DoneCommand extends Command {
@@ -11,18 +10,6 @@ public class DoneCommand extends Command {
 
     public DoneCommand(int index) {
         this.index = index;
-    }
-
-    @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
-        try {
-            Task task = taskList.get(index - 1);
-            task.markAsDone();
-            ui.show("Nice! I've marked this task as done:");
-            ui.show(task.toString(), 7);
-        } catch (IndexOutOfBoundsException e) {
-            throw new DukeException("Invalid index.");
-        }
     }
 
     @Override
