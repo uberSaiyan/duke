@@ -1,4 +1,4 @@
-package duke;
+package duke.core;
 
 import duke.command.AddDeadlineCommand;
 import duke.command.AddEventCommand;
@@ -10,6 +10,7 @@ import duke.command.ExitCommand;
 import duke.command.FindCommand;
 import duke.command.InvalidCommand;
 import duke.command.ListCommand;
+import duke.exception.DukeException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

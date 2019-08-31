@@ -1,7 +1,7 @@
 package duke.command;
 
-import duke.Storage;
-import duke.TaskList;
+import duke.core.Storage;
+import duke.core.TaskList;
 
 public class ListCommand extends Command {
     @Override

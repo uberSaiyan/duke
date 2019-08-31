@@ -1,5 +1,6 @@
-package duke;
+package duke.core;
 
+import duke.exception.DukeException;
 import duke.task.Task;
 
 import java.io.FileInputStream;
