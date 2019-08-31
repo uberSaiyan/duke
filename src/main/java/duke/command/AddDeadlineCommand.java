@@ -2,7 +2,6 @@ package duke.command;
 
 import duke.Storage;
 import duke.TaskList;
-import duke.Ui;
 import duke.task.Deadline;
 import duke.task.Task;
 
@@ -18,12 +17,12 @@ public class AddDeadlineCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
+    public String execute(TaskList taskList, Storage storage) {
         Task task = new Deadline(description, date);
         taskList.add(task);
-        ui.show("Got it. I've added this task:");
-        ui.show(task.toString(), 7);
-        ui.show(String.format("Now you have %d tasks in the list.", taskList.size()));
+        return "Got it. I've added this task:\n"
+                + String.format("%s\n", task.toString())
+                + String.format("Now you have %d tasks in the list.\n", taskList.size());
     }
 
     @Override
