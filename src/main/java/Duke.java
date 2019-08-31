@@ -11,7 +11,15 @@ public class Duke {
     private TaskList taskList;
     private Ui ui;
 
-    public Duke() {}
+    public Duke() {
+        String filePath = "data/tasks.txt";
+        storage = new Storage(filePath);
+        try {
+            taskList = new TaskList(storage.load());
+        } catch (DukeException e) {
+            taskList = new TaskList();
+        }
+    }
 
     private Duke(String filePath) {
         ui = new Ui();
@@ -51,6 +59,11 @@ public class Duke {
      * Replace this stub with your completed method.
      */
     String getResponse(String input) {
-        return "Duke heard: " + input;
+        Command c = Parser.parse(input);
+        String response = c.execute(taskList, storage);
+        if (c.isExit()) {
+            System.exit(0);
+        }
+        return response;
     }
 }

@@ -26,6 +26,18 @@ public class DeleteCommand extends Command {
     }
 
     @Override
+    public String execute(TaskList taskList, Storage storage) {
+        try {
+            Task task = taskList.remove(index - 1);
+            return "Noted. I've removed this task:\n"
+                    + String.format("%s\n", task.toString())
+                    + String.format("Now you have %d tasks in the list.\n", taskList.size());
+        } catch (IndexOutOfBoundsException e) {
+            throw new DukeException("Invalid index.");
+        }
+    }
+
+    @Override
     public boolean isExit() {
         return false;
     }

@@ -17,14 +17,20 @@ public class FindCommand extends Command {
 
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) {
-        ui.show("Here are the matching tasks in your list:");
         List<Task> filteredTasks = new ArrayList<>();
         for (Task task : taskList.getTasks()) {
             if (task.getDescription().contains(searchText)) {
                 filteredTasks.add(task);
             }
         }
+        ui.show("Here are the matching tasks in your list:");
         ui.show(filteredTasks);
+    }
+
+    @Override
+    public String execute(TaskList taskList, Storage storage) {
+        return "Here are the matching tasks in your list:\n"
+                + taskList.filter(searchText).toString();
     }
 
     @Override

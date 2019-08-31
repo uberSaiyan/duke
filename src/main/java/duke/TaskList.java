@@ -35,4 +35,24 @@ public class TaskList {
     public int size() {
         return this.tasks.size();
     }
+
+    public TaskList filter(String searchText) {
+        List<Task> filteredTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().contains(searchText)) {
+                filteredTasks.add(task);
+            }
+        }
+        return new TaskList(filteredTasks);
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            result += String.format("%d.%s\n", (i + 1), task.toString());
+        }
+        return result;
+    }
 }
