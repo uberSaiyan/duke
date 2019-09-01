@@ -2,6 +2,7 @@ package duke.core;
 
 import duke.command.Command;
 import duke.exception.DukeException;
+import duke.util.Response;
 
 public class Duke {
 
@@ -19,16 +20,12 @@ public class Duke {
     }
 
     /**
-     * Returns a response {@link String} from {@link Duke} according to input.
+     * Returns a {@link Response} from {@link Duke} according to input.
      * @param input A query {@link String}.
-     * @return A corresponding {@link String} response.
+     * @return A corresponding {@link Response}.
      */
-    public String getResponse(String input) {
+    public Response getResponse(String input) {
         Command c = Parser.parse(input);
-        String response = c.execute(taskList, storage);
-        if (c.isExit()) {
-            System.exit(0);
-        }
-        return response;
+        return new Response(c.execute(taskList, storage), c.isExit());
     }
 }

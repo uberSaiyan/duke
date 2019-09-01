@@ -1,6 +1,7 @@
 package duke.ui;
 
 import duke.core.Duke;
+import duke.util.Response;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -8,6 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Controller for MainWindow. Provides the layout for the other controls.
@@ -33,7 +38,10 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        showWelcome();
+    }
 
+    private void showWelcome() {
         String welcome = "Hello! I'm Duke\n"
                 + "What can I do for you?\n";
         dialogContainer.getChildren().addAll(
@@ -52,11 +60,25 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = duke.getResponse(input);
+        Response response = duke.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
+                DialogBox.getDukeDialog(response.getMessage(), dukeImage)
         );
         userInput.clear();
+
+        if (response.isExit()) {
+            timedExit(1);
+        }
+    }
+
+    private void timedExit(int seconds) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.exit(0);
+            }
+        }, new Date(System.currentTimeMillis() + seconds * 1000));
     }
 }
