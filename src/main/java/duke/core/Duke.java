@@ -1,7 +1,6 @@
 package duke.core;
 
 import duke.command.Command;
-import duke.exception.DukeException;
 import duke.util.Response;
 
 public class Duke {
@@ -12,11 +11,7 @@ public class Duke {
     Duke() {
         String filePath = "data/tasks.txt";
         storage = new Storage(filePath);
-        try {
-            taskList = new TaskList(storage.load());
-        } catch (DukeException e) {
-            taskList = new TaskList();
-        }
+        taskList = new TaskList(storage.load());
     }
 
     /**
