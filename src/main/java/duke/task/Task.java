@@ -7,6 +7,7 @@ public abstract class Task implements Serializable {
     private boolean isDone;
 
     protected Task(String description) {
+        assert description != null : "Task description is null";
         this.description = description;
         this.isDone = false;
     }

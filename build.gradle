@@ -38,11 +38,10 @@ javafx {
 }
 
 application {
-    // Change this to your main class.
     mainClassName = "duke.core.Launcher"
 }
 
 
 run {
-    standardInput = System.in
+    enableAssertions = true
 }

@@ -17,6 +17,7 @@ public class Storage {
     private String filePath;
 
     public Storage(String filePath) {
+        assert filePath != null : "Storage path is null.";
         this.filePath = filePath;
     }
 
@@ -29,6 +30,7 @@ public class Storage {
             FileInputStream file = new FileInputStream(filePath);
             ObjectInputStream in = new ObjectInputStream(file);
 
+            @SuppressWarnings("unchecked")
             List<Task> tasks = (List<Task>) in.readObject();
 
             in.close();
@@ -42,6 +44,7 @@ public class Storage {
                 throw new DukeException("Failed to create new data file.");
             }
         } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
             throw new DukeException("Failed to load stored data.");
         }
     }

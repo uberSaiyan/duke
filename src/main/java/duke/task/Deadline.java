@@ -7,6 +7,7 @@ public class Deadline extends Task {
 
     public Deadline(String description, Date by) {
         super(description);
+        assert by != null : "Deadline date is null.";
         this.by = by;
     }
 
