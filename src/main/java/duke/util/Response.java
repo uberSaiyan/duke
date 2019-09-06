@@ -1,7 +1,6 @@
 package duke.util;
 
 public class Response {
-
     private String message;
     private ResponseCode responseCode;
 

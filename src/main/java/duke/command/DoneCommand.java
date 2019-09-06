@@ -13,7 +13,7 @@ public class DoneCommand extends SaveableCommand {
     }
 
     @Override
-    public String executeBeforeSave(TaskList taskList, Storage storage) {
+    protected String executeBeforeSave(TaskList taskList, Storage storage) {
         try {
             Task task = taskList.get(index - 1);
             task.markAsDone();

@@ -17,7 +17,7 @@ public class AddDeadlineCommand extends SaveableCommand {
     }
 
     @Override
-    public String executeBeforeSave(TaskList taskList, Storage storage) {
+    protected String executeBeforeSave(TaskList taskList, Storage storage) {
         Task task = new Deadline(description, date);
         taskList.add(task);
         return "Got it. I've added this task:\n"

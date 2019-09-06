@@ -13,7 +13,7 @@ public class AddTodoCommand extends SaveableCommand {
     }
 
     @Override
-    public String executeBeforeSave(TaskList taskList, Storage storage) {
+    protected String executeBeforeSave(TaskList taskList, Storage storage) {
         Task task = new Todo(description);
         taskList.add(task);
         return "Got it. I've added this task:\n"

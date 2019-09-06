@@ -13,7 +13,7 @@ public class DeleteCommand extends SaveableCommand {
     }
 
     @Override
-    public String executeBeforeSave(TaskList taskList, Storage storage) {
+    protected String executeBeforeSave(TaskList taskList, Storage storage) {
         try {
             Task task = taskList.remove(index - 1);
             return "Noted. I've removed this task:\n"
