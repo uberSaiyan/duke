@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.util.Date;
 import java.util.Timer;
@@ -62,15 +63,31 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         Response response = duke.getResponse(input);
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response.getMessage(), dukeImage)
-        );
-        userInput.clear();
 
-        if (response.getResponseCode() == ResponseCode.EXIT) {
+        if (response.getResponseCode() == ResponseCode.OK) {
+            DialogBox dBox = DialogBox.getDukeDialog(response.getMessage(), dukeImage);
+            dBox.setColor(Color.GREEN);
+            dialogContainer.getChildren().addAll(
+                    DialogBox.getUserDialog(input, userImage),
+                    dBox
+            );
+        } else if (response.getResponseCode() == ResponseCode.ERROR) {
+            DialogBox dBox = DialogBox.getDukeDialog(response.getMessage(), dukeImage);
+            dBox.setColor(Color.RED);
+            dialogContainer.getChildren().addAll(
+                    DialogBox.getUserDialog(input, userImage),
+                    dBox
+            );
+        } else if (response.getResponseCode() == ResponseCode.EXIT) {
+            DialogBox dBox = DialogBox.getDukeDialog(response.getMessage(), dukeImage);
+            dBox.setColor(Color.BLUE);
+            dialogContainer.getChildren().addAll(
+                    DialogBox.getUserDialog(input, userImage),
+                    dBox
+            );
             timedExit(1);
         }
+        userInput.clear();
     }
 
     private void timedExit(int seconds) {
