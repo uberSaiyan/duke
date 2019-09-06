@@ -7,7 +7,7 @@ import duke.task.Task;
 
 import java.util.Date;
 
-public class AddDeadlineCommand extends Command {
+public class AddDeadlineCommand extends SaveableCommand {
     private String description;
     private Date date;
 
@@ -17,7 +17,7 @@ public class AddDeadlineCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList taskList, Storage storage) {
+    public String executeBeforeSave(TaskList taskList, Storage storage) {
         Task task = new Deadline(description, date);
         taskList.add(task);
         return "Got it. I've added this task:\n"

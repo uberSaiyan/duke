@@ -7,7 +7,7 @@ import duke.task.Task;
 
 import java.util.Date;
 
-public class AddEventCommand extends Command {
+public class AddEventCommand extends SaveableCommand {
     private String description;
     private Date date;
 
@@ -17,7 +17,7 @@ public class AddEventCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList taskList, Storage storage) {
+    public String executeBeforeSave(TaskList taskList, Storage storage) {
         Task task = new Event(description, date);
         taskList.add(task);
         return "Got it. I've added this task:\n"

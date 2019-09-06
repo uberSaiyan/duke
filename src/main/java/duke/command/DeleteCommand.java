@@ -5,7 +5,7 @@ import duke.core.TaskList;
 import duke.exception.DukeException;
 import duke.task.Task;
 
-public class DeleteCommand extends Command {
+public class DeleteCommand extends SaveableCommand {
     private int index;
 
     public DeleteCommand(int index) {
@@ -13,7 +13,7 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList taskList, Storage storage) {
+    public String executeBeforeSave(TaskList taskList, Storage storage) {
         try {
             Task task = taskList.remove(index - 1);
             return "Noted. I've removed this task:\n"

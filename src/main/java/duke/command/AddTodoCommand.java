@@ -5,7 +5,7 @@ import duke.core.TaskList;
 import duke.task.Task;
 import duke.task.Todo;
 
-public class AddTodoCommand extends Command {
+public class AddTodoCommand extends SaveableCommand {
     private String description;
 
     public AddTodoCommand(String description) {
@@ -13,7 +13,7 @@ public class AddTodoCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList taskList, Storage storage) {
+    public String executeBeforeSave(TaskList taskList, Storage storage) {
         Task task = new Todo(description);
         taskList.add(task);
         return "Got it. I've added this task:\n"

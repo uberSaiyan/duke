@@ -5,7 +5,7 @@ import duke.core.TaskList;
 import duke.exception.DukeException;
 import duke.task.Task;
 
-public class DoneCommand extends Command {
+public class DoneCommand extends SaveableCommand {
     private int index;
 
     public DoneCommand(int index) {
@@ -13,7 +13,7 @@ public class DoneCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList taskList, Storage storage) {
+    public String executeBeforeSave(TaskList taskList, Storage storage) {
         try {
             Task task = taskList.get(index - 1);
             task.markAsDone();
