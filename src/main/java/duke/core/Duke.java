@@ -1,6 +1,7 @@
 package duke.core;
 
 import duke.command.Command;
+import duke.exception.DukeException;
 import duke.util.Response;
 
 public class Duke {
@@ -20,7 +21,12 @@ public class Duke {
      * @return A corresponding {@link Response}.
      */
     public Response getResponse(String input) {
-        Command c = Parser.parse(input);
-        return new Response(c.execute(taskList, storage), c.isExit());
+        try {
+            Command c = Parser.parse(input);
+            String message = c.execute(taskList, storage);
+            return new Response(message, c.isExit());
+        } catch (DukeException e) {
+            return new Response(e.getMessage(), false);
+        }
     }
 }
