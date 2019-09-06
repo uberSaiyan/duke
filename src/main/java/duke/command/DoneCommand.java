@@ -16,6 +16,7 @@ public class DoneCommand extends SaveableCommand {
     protected String executeBeforeSave(TaskList taskList, Storage storage) {
         try {
             Task task = taskList.get(index - 1);
+            assert task != null : "Done index is invalid.";
             task.markAsDone();
             return "Nice! I've marked this task as done:\n"
                     + String.format("%s\n", task.toString());

@@ -16,6 +16,7 @@ public class DeleteCommand extends SaveableCommand {
     protected String executeBeforeSave(TaskList taskList, Storage storage) {
         try {
             Task task = taskList.remove(index - 1);
+            assert task != null : "Delete index is invalid.";
             return "Noted. I've removed this task:\n"
                     + String.format("%s\n", task.toString())
                     + String.format("Now you have %d tasks in the list.\n", taskList.size());

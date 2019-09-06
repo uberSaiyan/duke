@@ -11,6 +11,8 @@ public abstract class SaveableCommand extends Command {
      * @return A {@link String} describing the action taken.
      */
     public String execute(TaskList taskList, Storage storage) {
+        assert taskList != null : "Execute failed on null task list.";
+        assert storage != null : "Execute failed on null storage.";
         String result = executeBeforeSave(taskList, storage);
         storage.save(taskList.getTasks());
         return result;

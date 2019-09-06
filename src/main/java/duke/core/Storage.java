@@ -44,7 +44,6 @@ public class Storage {
                 throw new DukeException("Failed to create new data file.");
             }
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
             throw new DukeException("Failed to load stored data.");
         }
     }
