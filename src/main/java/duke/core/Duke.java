@@ -3,6 +3,7 @@ package duke.core;
 import duke.command.Command;
 import duke.exception.DukeException;
 import duke.util.Response;
+import duke.util.ResponseCode;
 
 public class Duke {
 
@@ -24,9 +25,9 @@ public class Duke {
         try {
             Command c = Parser.parse(input);
             String message = c.execute(taskList, storage);
-            return new Response(message, c.isExit());
+            return new Response(message, c.isExit() ? ResponseCode.EXIT : ResponseCode.OK);
         } catch (DukeException e) {
-            return new Response(e.getMessage(), false);
+            return new Response(e.getMessage(), ResponseCode.ERROR);
         }
     }
 }

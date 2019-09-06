@@ -2,6 +2,7 @@ package duke.ui;
 
 import duke.core.Duke;
 import duke.util.Response;
+import duke.util.ResponseCode;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -67,7 +68,7 @@ public class MainWindow extends AnchorPane {
         );
         userInput.clear();
 
-        if (response.isExit()) {
+        if (response.getResponseCode() == ResponseCode.EXIT) {
             timedExit(1);
         }
     }

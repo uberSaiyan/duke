@@ -3,18 +3,18 @@ package duke.util;
 public class Response {
 
     private String message;
-    private boolean isExit;
+    private ResponseCode responseCode;
 
-    public Response(String message, boolean isExit) {
+    public Response(String message, ResponseCode responseCode) {
         this.message = message;
-        this.isExit = isExit;
+        this.responseCode = responseCode;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public boolean isExit() {
-        return isExit;
+    public ResponseCode getResponseCode() {
+        return responseCode;
     }
 }
