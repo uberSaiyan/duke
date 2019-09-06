@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class AddEventCommandTest {
     @Test
-    public void execute() {
+    public void execute_correctInput_noException() {
         try {
             String dateString = "28/08/2019 1700";
             AddEventCommand c = new AddEventCommand("Example.",

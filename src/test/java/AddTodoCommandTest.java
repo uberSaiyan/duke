@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AddTodoCommandTest {
     @Test
-    public void execute() {
+    public void execute_correctInput_noException() {
         AddTodoCommand c = new AddTodoCommand("Example.");
         TaskList taskList = new TaskList();
         Storage storage = new Storage("This does not matter.");
