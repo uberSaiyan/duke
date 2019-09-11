@@ -36,71 +36,107 @@ public class Parser {
 
         switch (command) {
         case "bye":
-            return new ExitCommand();
+            return getByeCommand();
 
         case "list":
-            return new ListCommand();
+            return getListCommand();
 
         case "todo":
-            String description = fullCommand.substring(4).trim();
-            if (description.length() > 0) {
-                return new AddTodoCommand(description);
-            } else {
-                throw new DukeException("☹ OOPS!!! The description of a todo cannot be empty.");
-            }
+            return getTodoCommand(fullCommand);
 
         case "deadline":
-            try {
-                String[] deadlineInfo = fullCommand.substring(8).split(" /by ");
-                if (deadlineInfo[0].length() > 0) {
-                    Date date = parseDate(deadlineInfo[1].trim());
-                    return new AddDeadlineCommand(deadlineInfo[0].trim(), date);
-                } else {
-                    throw new DukeException("☹ OOPS!!! The description of a deadline cannot be empty.");
-                }
-            } catch (Exception e) {
-                throw new DukeException("Error while parsing input.");
-            }
+            return getDeadlineCommand(fullCommand);
 
         case "event":
-            try {
-                String[] eventInfo = fullCommand.substring(5).split(" /at ");
-                if (eventInfo[0].length() > 0) {
-                    Date date = parseDate(eventInfo[1].trim());
-                    return new AddEventCommand(eventInfo[0].trim(), date);
-                } else {
-                    throw new DukeException("☹ OOPS!!! The description of an event cannot be empty.");
-                }
-            } catch (Exception e) {
-                throw new DukeException("Error while parsing input.");
-            }
+            return getEventCommand(fullCommand);
 
         case "done":
-            try {
-                int doneIndex = Integer.parseInt(fullCommand.substring(4).split(" ")[1]);
-                return new DoneCommand(doneIndex);
-            } catch (Exception e) {
-                throw new DukeException("Error while parsing input.");
-            }
+            return getDoneCommand(fullCommand);
 
         case "delete":
-            try {
-                int deleteIndex = Integer.parseInt(fullCommand.substring(6).split(" ")[1]);
-                return new DeleteCommand(deleteIndex);
-            } catch (Exception e) {
-                throw new DukeException("Error while parsing input.");
-            }
+            return getDeleteCommand(fullCommand);
 
         case "find":
-            String searchText = fullCommand.substring(4).trim();
-            if (searchText.length() > 0) {
-                return new FindCommand(searchText);
-            } else {
-                throw new DukeException("☹ OOPS!!! The search text of a find command cannot be empty.");
-            }
+            return getFindCommand(fullCommand);
 
         default:
             throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
+    }
+
+    private static Command getFindCommand(String fullCommand) {
+        String searchText = fullCommand.substring(4).trim();
+
+        if (searchText.length() <= 0) {
+            throw new DukeException("☹ OOPS!!! The search text of a find command cannot be empty.");
+        }
+
+        return new FindCommand(searchText);
+    }
+
+    private static Command getDeleteCommand(String fullCommand) {
+        try {
+            int deleteIndex = Integer.parseInt(fullCommand.substring(6).split(" ")[1]);
+            return new DeleteCommand(deleteIndex);
+        } catch (Exception e) {
+            throw new DukeException("Error while parsing input.");
+        }
+    }
+
+    private static Command getDoneCommand(String fullCommand) {
+        try {
+            int doneIndex = Integer.parseInt(fullCommand.substring(4).split(" ")[1]);
+            return new DoneCommand(doneIndex);
+        } catch (Exception e) {
+            throw new DukeException("Error while parsing input.");
+        }
+    }
+
+    private static Command getEventCommand(String fullCommand) {
+        try {
+            String[] eventInfo = fullCommand.substring(5).split(" /at ");
+
+            if (eventInfo[0].length() <= 0) {
+                throw new DukeException("☹ OOPS!!! The description of an event cannot be empty.");
+            }
+
+            Date date = parseDate(eventInfo[1].trim());
+            return new AddEventCommand(eventInfo[0].trim(), date);
+        } catch (Exception e) {
+            throw new DukeException("Error while parsing input.");
+        }
+    }
+
+    private static Command getDeadlineCommand(String fullCommand) {
+        try {
+            String[] deadlineInfo = fullCommand.substring(8).split(" /by ");
+
+            if (deadlineInfo[0].length() <= 0) {
+                throw new DukeException("☹ OOPS!!! The description of a deadline cannot be empty.");
+            }
+
+            Date date = parseDate(deadlineInfo[1].trim());
+            return new AddDeadlineCommand(deadlineInfo[0].trim(), date);
+        } catch (Exception e) {
+            throw new DukeException("Error while parsing input.");
+        }
+    }
+
+    private static Command getTodoCommand(String fullCommand) {
+        String description = fullCommand.substring(4).trim();
+
+        if (description.length() <= 0) {
+            throw new DukeException("☹ OOPS!!! The description of a todo cannot be empty.");
+        }
+
+        return new AddTodoCommand(description);
+    }
+
+    private static Command getListCommand() {
+        return new ListCommand();
+    }
+
+    private static Command getByeCommand() {
+        return new ExitCommand();
     }
 }

@@ -64,30 +64,19 @@ public class MainWindow extends AnchorPane {
         String input = userInput.getText();
         Response response = duke.getResponse(input);
         assert response != null : "Null response from Duke.";
+        dialogContainer.getChildren().add(DialogBox.getUserDialog(input, userImage));
+        DialogBox dukeDialogBox = DialogBox.getDukeDialog(response.getMessage(), dukeImage);
 
         if (response.getResponseCode() == ResponseCode.OK) {
-            DialogBox dukeDialogBox = DialogBox.getDukeDialog(response.getMessage(), dukeImage);
             dukeDialogBox.setColor(Color.GREEN);
-            dialogContainer.getChildren().addAll(
-                    DialogBox.getUserDialog(input, userImage),
-                    dukeDialogBox
-            );
         } else if (response.getResponseCode() == ResponseCode.ERROR) {
-            DialogBox dukeDialogBox = DialogBox.getDukeDialog(response.getMessage(), dukeImage);
             dukeDialogBox.setColor(Color.RED);
-            dialogContainer.getChildren().addAll(
-                    DialogBox.getUserDialog(input, userImage),
-                    dukeDialogBox
-            );
         } else if (response.getResponseCode() == ResponseCode.EXIT) {
-            DialogBox dukeDialogBox = DialogBox.getDukeDialog(response.getMessage(), dukeImage);
             dukeDialogBox.setColor(Color.BLUE);
-            dialogContainer.getChildren().addAll(
-                    DialogBox.getUserDialog(input, userImage),
-                    dukeDialogBox
-            );
             timedExit(1);
         }
+
+        dialogContainer.getChildren().add(dukeDialogBox);
         userInput.clear();
     }
 
