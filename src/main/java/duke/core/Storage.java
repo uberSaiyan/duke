@@ -38,11 +38,13 @@ public class Storage {
 
             return tasks;
         } catch (FileNotFoundException e) {
-            if (createDataFile()) {
-                return new ArrayList<>();
-            } else {
+            boolean fileCreated = createDataFile();
+
+            if (!fileCreated) {
                 throw new DukeException("Failed to create new data file.");
             }
+
+            return new ArrayList<>();
         } catch (IOException | ClassNotFoundException e) {
             throw new DukeException("Failed to load stored data.");
         }
