@@ -63,6 +63,7 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         Response response = duke.getResponse(input);
+        assert response != null : "Null response from Duke.";
 
         if (response.getResponseCode() == ResponseCode.OK) {
             DialogBox dukeDialogBox = DialogBox.getDukeDialog(response.getMessage(), dukeImage);
@@ -91,6 +92,7 @@ public class MainWindow extends AnchorPane {
     }
 
     private void timedExit(int seconds) {
+        assert seconds > 0 : "Timed exit must be positive.";
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
