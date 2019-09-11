@@ -4,9 +4,11 @@ import duke.task.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class TaskList {
-    private List<Task> tasks;
+    protected List<Task> tasks;
 
     public TaskList() {
         tasks = new ArrayList<>();
@@ -42,12 +44,20 @@ public class TaskList {
      * @return A new {@link TaskList} with {@link Task} that contain searchText in its description.
      */
     public TaskList filter(String searchText) {
-        List<Task> filteredTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getDescription().contains(searchText)) {
-                filteredTasks.add(task);
-            }
+        return select(task -> task.getDescription().contains(searchText));
+    }
+
+    public TaskList select(Predicate<Task>... predicates) {
+        // compose predicates with or
+        Predicate<Task> composedPred = task -> false;
+        for (Predicate<Task> pred : predicates) {
+            composedPred = composedPred.or(pred);
         }
+
+        List<Task> filteredTasks =
+                tasks.stream()
+                        .filter(composedPred)
+                        .collect(Collectors.toList());
         return new TaskList(filteredTasks);
     }
 
