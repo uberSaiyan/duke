@@ -1,6 +1,5 @@
 package duke.command;
 
-import duke.core.Storage;
 import duke.core.TaskList;
 import duke.exception.DukeException;
 import duke.task.Task;
@@ -13,7 +12,7 @@ public class DoneCommand extends SaveableCommand {
     }
 
     @Override
-    protected String executeBeforeSave(TaskList taskList, Storage storage) {
+    protected String executeBeforeSave(TaskList taskList) {
         try {
             Task task = taskList.get(index - 1);
             assert task != null : "Done index is invalid.";

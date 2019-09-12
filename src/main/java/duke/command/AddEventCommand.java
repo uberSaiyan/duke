@@ -1,6 +1,5 @@
 package duke.command;
 
-import duke.core.Storage;
 import duke.core.TaskList;
 import duke.task.Event;
 import duke.task.Task;
@@ -17,7 +16,7 @@ public class AddEventCommand extends SaveableCommand {
     }
 
     @Override
-    protected String executeBeforeSave(TaskList taskList, Storage storage) {
+    protected String executeBeforeSave(TaskList taskList) {
         Task task = new Event(description, date);
         taskList.add(task);
         return "Got it. I've added this task:\n"
