@@ -1,6 +1,5 @@
 package duke.command;
 
-import duke.core.Storage;
 import duke.core.TaskList;
 import duke.task.Task;
 import duke.task.Todo;
@@ -13,7 +12,7 @@ public class AddTodoCommand extends SaveableCommand {
     }
 
     @Override
-    protected String executeBeforeSave(TaskList taskList, Storage storage) {
+    protected String executeBeforeSave(TaskList taskList) {
         Task task = new Todo(description);
         taskList.add(task);
         return "Got it. I've added this task:\n"

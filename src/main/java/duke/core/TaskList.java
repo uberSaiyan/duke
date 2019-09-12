@@ -3,6 +3,7 @@ package duke.core;
 import duke.task.Task;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -49,10 +50,8 @@ public class TaskList {
 
     public TaskList select(Predicate<Task>... predicates) {
         // compose predicates with or
-        Predicate<Task> composedPred = task -> false;
-        for (Predicate<Task> pred : predicates) {
-            composedPred = composedPred.or(pred);
-        }
+        Predicate<Task> composedPred = Arrays.stream(predicates)
+                .reduce(task -> false, Predicate::or);
 
         List<Task> filteredTasks =
                 tasks.stream()

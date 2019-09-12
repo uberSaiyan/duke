@@ -25,7 +25,8 @@ public class Duke {
         try {
             Command c = Parser.parse(input);
             String message = c.execute(taskList, storage);
-            return new Response(message, c.isExit() ? ResponseCode.EXIT : ResponseCode.OK);
+            ResponseCode responseCode = c.isExit() ? ResponseCode.EXIT : ResponseCode.OK;
+            return new Response(message, responseCode);
         } catch (DukeException e) {
             return new Response(e.getMessage(), ResponseCode.ERROR);
         }

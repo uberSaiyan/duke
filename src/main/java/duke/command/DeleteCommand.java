@@ -1,25 +1,25 @@
 package duke.command;
 
-import duke.core.Storage;
 import duke.core.TaskList;
 import duke.exception.DukeException;
 import duke.task.Task;
 
-public class DeleteCommand extends SaveableCommand {
-    private int index;
+import java.util.Arrays;
 
-    public DeleteCommand(int index) {
-        this.index = index;
+public class DeleteCommand extends SaveableCommand {
+    private int[] indexes;
+
+    public DeleteCommand(int[] indexes) {
+        this.indexes = indexes;
     }
 
     @Override
-    protected String executeBeforeSave(TaskList taskList, Storage storage) {
+    protected String executeBeforeSave(TaskList taskList) {
         try {
-            Task task = taskList.remove(index - 1);
-            assert task != null : "Delete index is invalid.";
-            return "Noted. I've removed this task:\n"
-                    + String.format("%s\n", task.toString())
-                    + String.format("Now you have %d tasks in the list.\n", taskList.size());
+            StringBuilder message = new StringBuilder();
+            Arrays.stream(indexes)
+                    .forEach(index -> message.append(removeTask(taskList, index)));
+            return message.toString();
         } catch (IndexOutOfBoundsException e) {
             throw new DukeException("Invalid index.");
         }
@@ -28,5 +28,12 @@ public class DeleteCommand extends SaveableCommand {
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    private String removeTask(TaskList taskList, int index) {
+        Task task = taskList.remove(index - 1);
+        return "Noted. I've removed this task:\n" +
+                String.format("%s\n", task.toString()) +
+                String.format("Now you have %d tasks in the list.\n", taskList.size());
     }
 }

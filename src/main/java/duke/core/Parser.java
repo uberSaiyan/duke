@@ -13,7 +13,10 @@ import duke.exception.DukeException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Parser {
     /**
@@ -76,8 +79,11 @@ public class Parser {
 
     private static Command getDeleteCommand(String fullCommand) {
         try {
-            int deleteIndex = Integer.parseInt(fullCommand.substring(6).split(" ")[1]);
-            return new DeleteCommand(deleteIndex);
+            String parameters = fullCommand.substring(6).trim();
+            int[] indexes = Arrays.stream(parameters.split(" "))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            return new DeleteCommand(indexes);
         } catch (Exception e) {
             throw new DukeException("Error while parsing input.");
         }
