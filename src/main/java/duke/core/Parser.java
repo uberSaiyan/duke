@@ -80,7 +80,7 @@ public class Parser {
         String parameters = fullCommand.substring(6).trim();
 
         if (parameters.length() <= 0) {
-            throw new DukeException("Delete expects at least 1 parameter.");
+            throw new DukeException("\'Delete\' expects at least 1 parameter.");
         }
 
         Stream<Integer> indexes = Arrays.stream(parameters.split(" "))
@@ -96,12 +96,22 @@ public class Parser {
     }
 
     private static Command getDoneCommand(String fullCommand) {
-        try {
-            int doneIndex = Integer.parseInt(fullCommand.substring(4).split(" ")[1]);
-            return new DoneCommand(doneIndex);
-        } catch (Exception e) {
-            throw new DukeException("Error while parsing input.");
+        String parameters = fullCommand.substring(4).trim();
+
+        if (parameters.length() <= 0) {
+            throw new DukeException("\'Done\' expects at least 1 parameter.");
         }
+
+        Stream<Integer> indexes = Arrays.stream(parameters.split(" "))
+                .map(s -> {
+                    try {
+                        return Integer.parseInt(s);
+                    } catch (NumberFormatException e) {
+                        throw new DukeException(String.format("Parameter \'%s\' is not an integer.", s));
+                    }
+                });
+
+        return new DoneCommand(indexes);
     }
 
     private static Command getEventCommand(String fullCommand) {
