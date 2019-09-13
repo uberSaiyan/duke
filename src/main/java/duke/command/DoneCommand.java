@@ -1,26 +1,50 @@
 package duke.command;
 
 import duke.core.TaskList;
-import duke.exception.DukeException;
 import duke.task.Task;
 
-public class DoneCommand extends SaveableCommand {
-    private int index;
+import java.util.Optional;
+import java.util.stream.Stream;
 
-    public DoneCommand(int index) {
-        this.index = index;
+public class DoneCommand extends SaveableCommand {
+    private Stream<Integer> indexes;
+
+    public DoneCommand(Stream<Integer> indexes) {
+        this.indexes = indexes;
     }
 
     @Override
     protected String executeBeforeSave(TaskList taskList) {
+        StringBuilder positiveMessages = new StringBuilder();
+        positiveMessages.append("Nice! I've marked these task(s) as done:\n");
+
+        StringBuilder negativeMessages = new StringBuilder();
+        negativeMessages.append("These invalid indexes were ignored:\n");
+
+        indexes.distinct()
+                .forEach(index -> {
+                    Optional<Task> markedTasked = markTask(taskList, index);
+                    markedTasked.ifPresentOrElse(
+                            task -> positiveMessages.append(String.format("%s\n", task)),
+                            () -> negativeMessages.append(String.format("%d ", index))
+                    );
+                });
+
+        StringBuilder finalMessage = new StringBuilder();
+        finalMessage.append(positiveMessages);
+        finalMessage.append("\n");
+        finalMessage.append(negativeMessages);
+
+        return finalMessage.toString();
+    }
+
+    private Optional<Task> markTask(TaskList taskList, Integer index) {
         try {
             Task task = taskList.get(index - 1);
-            assert task != null : "Done index is invalid.";
             task.markAsDone();
-            return "Nice! I've marked this task as done:\n"
-                    + String.format("%s\n", task.toString());
+            return Optional.of(task);
         } catch (IndexOutOfBoundsException e) {
-            throw new DukeException("Invalid index.");
+            return Optional.empty();
         }
     }
 
