@@ -53,10 +53,10 @@ public class TaskList {
         Predicate<Task> composedPred = Arrays.stream(predicates)
                 .reduce(task -> false, Predicate::or);
 
-        List<Task> filteredTasks =
-                tasks.stream()
-                        .filter(composedPred)
-                        .collect(Collectors.toList());
+        List<Task> filteredTasks = tasks.stream()
+                .filter(composedPred)
+                .collect(Collectors.toList());
+
         return new TaskList(filteredTasks);
     }
 

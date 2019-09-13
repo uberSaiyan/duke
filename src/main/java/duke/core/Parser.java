@@ -15,8 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Parser {
     /**
@@ -78,15 +77,22 @@ public class Parser {
     }
 
     private static Command getDeleteCommand(String fullCommand) {
-        try {
-            String parameters = fullCommand.substring(6).trim();
-            int[] indexes = Arrays.stream(parameters.split(" "))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-            return new DeleteCommand(indexes);
-        } catch (Exception e) {
-            throw new DukeException("Error while parsing input.");
+        String parameters = fullCommand.substring(6).trim();
+
+        if (parameters.length() <= 0) {
+            throw new DukeException("Delete expects at least 1 parameter.");
         }
+
+        Stream<Integer> indexes = Arrays.stream(parameters.split(" "))
+                .map(s -> {
+                    try {
+                        return Integer.parseInt(s);
+                    } catch (NumberFormatException e) {
+                        throw new DukeException(String.format("Parameter \'%s\' is not an integer.", s));
+                    }
+                });
+
+        return new DeleteCommand(indexes);
     }
 
     private static Command getDoneCommand(String fullCommand) {
