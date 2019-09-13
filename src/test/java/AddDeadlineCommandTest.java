@@ -17,7 +17,7 @@ public class AddDeadlineCommandTest {
             AddDeadlineCommand c = new AddDeadlineCommand("Example.",
                     new SimpleDateFormat("dd/MM/yyyy HHmm").parse(dateString));
             TaskList taskList = new TaskList();
-            Storage storage = new Storage("This does not matter.");
+            Storage storage = new Storage("data/tests.txt");
             String crossSymbol = "\u2718"; // x symbol
             String desired = "Got it. I've added this task:\n"
                     + String.format("[D][%s] Example. (by: Wed Aug 28 17:00:00 SGT 2019)\n", crossSymbol)
