@@ -11,10 +11,13 @@ import duke.command.FindCommand;
 import duke.command.ListCommand;
 import duke.exception.DukeException;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.stream.Stream;
 
 public class Parser {
@@ -24,8 +27,19 @@ public class Parser {
      * @return A corresponding {@link Date}.
      * @throws ParseException If dateString is not in the form dd/MM/yyyy HHmm.
      */
-    private static Date parseDate(String dateString) throws ParseException {
-        return new SimpleDateFormat("dd/MM/yyyy HHmm").parse(dateString);
+    public static Date parseDate(String dateString) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HHmm");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return sdf.parse(dateString);
+    }
+
+    /**
+     * Returns a {@link String} representation of a {@link Date}.
+     * @param date Any {@link Date}.
+     * @return A representative {@link String}.
+     */
+    public static String formatDate(Date date) {
+        return DateFormat.getDateTimeInstance().format(date);
     }
 
     /**

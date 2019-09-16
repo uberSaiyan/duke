@@ -1,9 +1,11 @@
+import duke.core.Parser;
 import duke.task.Event;
 import duke.task.Task;
 import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -12,10 +14,11 @@ public class EventTest {
     @Test
     public void stringConversion_isNotDone_crossSymbol() {
         try {
-            Task testTake = new Event("Example.",
-                    new SimpleDateFormat("dd/MM/yyyy HHmm").parse("28/08/2019 1700"));
+            String dateString = "28/08/2019 1700";
+            Date date = Parser.parseDate(dateString);
+            Task testTake = new Event("Example.", date);
             String crossSymbol = "\u2718"; // x symbol
-            assertEquals(String.format("[E][%s] Example. (at: Wed Aug 28 17:00:00 SGT 2019)", crossSymbol),
+            assertEquals(String.format("[E][%s] Example. (at: %s)", crossSymbol, Parser.formatDate(date)),
                     testTake.toString());
         } catch (ParseException e) {
             fail(); // the test should not reach this line
@@ -25,11 +28,12 @@ public class EventTest {
     @Test
     public void stringConversion_isDone_tickSymbol() {
         try {
-            Task testTake = new Event("Example.",
-                    new SimpleDateFormat("dd/MM/yyyy HHmm").parse("28/08/2019 1700"));
+            String dateString = "28/08/2019 1700";
+            Date date = Parser.parseDate(dateString);
+            Task testTake = new Event("Example.", date);
             testTake.markAsDone();
             String tickSymbol = "\u2713"; // tick symbol
-            assertEquals(String.format("[E][%s] Example. (at: Wed Aug 28 17:00:00 SGT 2019)", tickSymbol),
+            assertEquals(String.format("[E][%s] Example. (at: %s)", tickSymbol, Parser.formatDate(date)),
                     testTake.toString());
         } catch (ParseException e) {
             fail(); // the test should not reach this line

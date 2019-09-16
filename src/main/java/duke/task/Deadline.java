@@ -1,5 +1,7 @@
 package duke.task;
 
+import duke.core.Parser;
+
 import java.util.Date;
 
 public class Deadline extends Task {
@@ -18,6 +20,6 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: " + Parser.formatDate(by) + ")";
     }
 }
