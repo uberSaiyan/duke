@@ -19,6 +19,8 @@ public class DeleteCommand extends SaveableCommand {
         StringBuilder positiveMessages = new StringBuilder();
         positiveMessages.append("Noted. I've removed these task(s):\n");
 
+        TaskList removedTasks = new TaskList();
+
         StringBuilder negativeMessages = new StringBuilder();
         negativeMessages.append("These invalid indexes were ignored:\n");
 
@@ -28,9 +30,11 @@ public class DeleteCommand extends SaveableCommand {
                 .forEach(index -> {
                     Optional<Task> removedTask = removeTask(taskList, index);
                     removedTask.ifPresentOrElse(
-                        task -> positiveMessages.append(String.format("%s\n", task)),
+                        task -> removedTasks.add(task),
                         () -> negativeMessages.append(String.format("%d ", index)));
                 });
+
+        positiveMessages.append(removedTasks.toString());
 
         StringBuilder finalMessage = new StringBuilder();
         finalMessage.append(positiveMessages);

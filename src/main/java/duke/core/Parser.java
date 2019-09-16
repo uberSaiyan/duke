@@ -16,7 +16,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 import java.util.stream.Stream;
 
@@ -29,7 +28,6 @@ public class Parser {
      */
     public static Date parseDate(String dateString) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HHmm");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         return sdf.parse(dateString);
     }
 
