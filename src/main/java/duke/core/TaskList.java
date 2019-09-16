@@ -48,6 +48,11 @@ public class TaskList {
         return select(task -> task.getDescription().contains(searchText));
     }
 
+    /**
+     * Returns a new {@link TaskList} with {@link Task} that satisfy any of the input {@link Predicate}.
+     * @param predicates Conditions to filter {@link Task} by.
+     * @return A new {@link TaskList}.
+     */
     public TaskList select(Predicate<Task>... predicates) {
         // compose predicates with or
         Predicate<Task> composedPred = Arrays.stream(predicates)

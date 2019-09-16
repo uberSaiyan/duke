@@ -28,8 +28,8 @@ public class DeleteCommand extends SaveableCommand {
                 .forEach(index -> {
                     Optional<Task> removedTask = removeTask(taskList, index);
                     removedTask.ifPresentOrElse(
-                            task -> positiveMessages.append(String.format("%s\n", task)),
-                            () -> negativeMessages.append(String.format("%d ", index)));
+                        task -> positiveMessages.append(String.format("%s\n", task)),
+                        () -> negativeMessages.append(String.format("%d ", index)));
                 });
 
         StringBuilder finalMessage = new StringBuilder();
