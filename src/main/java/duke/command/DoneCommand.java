@@ -25,8 +25,8 @@ public class DoneCommand extends SaveableCommand {
                 .forEach(index -> {
                     Optional<Task> markedTasked = markTask(taskList, index);
                     markedTasked.ifPresentOrElse(
-                            task -> positiveMessages.append(String.format("%s\n", task)),
-                            () -> negativeMessages.append(String.format("%d ", index))
+                        task -> positiveMessages.append(String.format("%s\n", task)),
+                        () -> negativeMessages.append(String.format("%d ", index))
                     );
                 });
 
