@@ -16,6 +16,7 @@ import java.util.List;
 public class Storage {
     private String directoryPath;
     private String fileName;
+    private boolean isLoaded;
 
     /**
      * Creates a {@link Storage} object that loads and saves data to input file path.
@@ -27,6 +28,15 @@ public class Storage {
         assert fileName != null : "File name is null.";
         this.directoryPath = directoryPath;
         this.fileName = fileName;
+        this.isLoaded = false;
+    }
+
+    /**
+     * Returns load status of storage.
+     * @return load status of storage.
+     */
+    public boolean isLoaded() {
+        return isLoaded;
     }
 
     /**
@@ -45,6 +55,8 @@ public class Storage {
             in.close();
             file.close();
 
+            isLoaded = true;
+
             return tasks;
         } catch (FileNotFoundException e) {
             createFolder();
@@ -53,6 +65,8 @@ public class Storage {
             if (!fileCreated) {
                 throw new DukeException("Failed to create data file.");
             }
+
+            isLoaded = true;
 
             return new ArrayList<>();
         } catch (IOException | ClassNotFoundException e) {
