@@ -17,9 +17,14 @@ public class Storage {
     private String directoryPath;
     private String fileName;
 
+    /**
+     * Creates a {@link Storage} object that loads and saves data to input file path.
+     * @param directoryPath Path of directory to save the file.
+     * @param fileName Name of file to save the data in.
+     */
     public Storage(String directoryPath, String fileName) {
         assert directoryPath != null : "Directory path is null.";
-        assert fileName != null: "File name is null.";
+        assert fileName != null : "File name is null.";
         this.directoryPath = directoryPath;
         this.fileName = fileName;
     }
