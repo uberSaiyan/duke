@@ -50,13 +50,12 @@ public class Storage {
             ObjectInputStream in = new ObjectInputStream(file);
 
             @SuppressWarnings("unchecked")
-            List<Task> tasks = (List<Task>) in.readObject();
+            final List<Task> tasks = (List<Task>) in.readObject();
 
             in.close();
             file.close();
 
             isLoaded = true;
-
             return tasks;
         } catch (FileNotFoundException e) {
             createFolder();
@@ -67,7 +66,6 @@ public class Storage {
             }
 
             isLoaded = true;
-
             return new ArrayList<>();
         } catch (IOException | ClassNotFoundException e) {
             throw new DukeException("Failed to load stored data.");
