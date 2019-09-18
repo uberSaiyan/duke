@@ -6,13 +6,14 @@ import duke.util.Response;
 import duke.util.ResponseCode;
 
 public class Duke {
+    private static final String DIRECTORY_PATH = "data/";
+    private static final String FILE_NAME = "tasks.txt";
 
     private Storage storage;
     private TaskList taskList;
 
     Duke() {
-        String filePath = "data/tasks.txt";
-        storage = new Storage(filePath);
+        storage = new Storage(DIRECTORY_PATH, FILE_NAME);
         taskList = new TaskList(storage.load());
     }
 

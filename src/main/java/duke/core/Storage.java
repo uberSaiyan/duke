@@ -14,11 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
-    private String filePath;
+    private String directoryPath;
+    private String fileName;
 
-    public Storage(String filePath) {
-        assert filePath != null : "Storage path is null.";
-        this.filePath = filePath;
+    public Storage(String directoryPath, String fileName) {
+        assert directoryPath != null : "Directory path is null.";
+        assert fileName != null: "File name is null.";
+        this.directoryPath = directoryPath;
+        this.fileName = fileName;
     }
 
     /**
@@ -27,7 +30,8 @@ public class Storage {
      */
     public List<Task> load() {
         try {
-            FileInputStream file = new FileInputStream(filePath);
+            // Solution below adapted from https://www.geeksforgeeks.org/serialization-in-java/
+            FileInputStream file = new FileInputStream(directoryPath + fileName);
             ObjectInputStream in = new ObjectInputStream(file);
 
             @SuppressWarnings("unchecked")
@@ -38,10 +42,11 @@ public class Storage {
 
             return tasks;
         } catch (FileNotFoundException e) {
+            createFolder();
             boolean fileCreated = createDataFile();
 
             if (!fileCreated) {
-                throw new DukeException("Failed to create new data file.");
+                throw new DukeException("Failed to create data file.");
             }
 
             return new ArrayList<>();
@@ -56,7 +61,8 @@ public class Storage {
      */
     public void save(List<Task> tasks) {
         try {
-            FileOutputStream file = new FileOutputStream(filePath);
+            // Solution below adapted from https://www.geeksforgeeks.org/serialization-in-java/
+            FileOutputStream file = new FileOutputStream(directoryPath + fileName);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
             out.writeObject(tasks);
@@ -70,10 +76,14 @@ public class Storage {
 
     private boolean createDataFile() {
         try {
-            File file = new File(filePath);
+            File file = new File(directoryPath + fileName);
             return file.createNewFile() && file.setReadable(true) && file.setWritable(true);
         } catch (IOException e) {
             return false;
         }
+    }
+
+    private void createFolder() {
+        new File(directoryPath).mkdir();
     }
 }
