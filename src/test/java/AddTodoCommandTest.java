@@ -10,7 +10,7 @@ public class AddTodoCommandTest {
     public void execute_correctInput_noException() {
         AddTodoCommand c = new AddTodoCommand("Example.");
         TaskList taskList = new TaskList();
-        Storage storage = new Storage("data/tests.txt");
+        Storage storage = new Storage("data/", "tests.txt");
         String crossSymbol = "\u2718"; // x symbol
         String desired = "Got it. I've added this task:\n"
                 + String.format("[T][%s] Example.\n", crossSymbol)

@@ -18,7 +18,7 @@ public class AddDeadlineCommandTest {
             Date date = Parser.parseDate(dateString);
             AddDeadlineCommand c = new AddDeadlineCommand("Example.", date);
             TaskList taskList = new TaskList();
-            Storage storage = new Storage("data/tests.txt");
+            Storage storage = new Storage("data/", "tests.txt");
             String crossSymbol = "\u2718"; // x symbol
             String desired = "Got it. I've added this task:\n"
                     + String.format("[D][%s] Example. (by: %s)\n", crossSymbol, Parser.formatDate(date))

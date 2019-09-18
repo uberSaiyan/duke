@@ -18,7 +18,7 @@ public class AddEventCommandTest {
             Date date = Parser.parseDate(dateString);
             AddEventCommand c = new AddEventCommand("Example.", Parser.parseDate(dateString));
             TaskList taskList = new TaskList();
-            Storage storage = new Storage("data/tests.txt");
+            Storage storage = new Storage("data/", "tests.txt");
             String crossSymbol = "\u2718"; // x symbol
             String desired = "Got it. I've added this task:\n"
                     + String.format("[E][%s] Example. (at: %s)\n", crossSymbol, Parser.formatDate(date))
