@@ -191,7 +191,7 @@ Exit application
 
 ### `bye` - Exit
 
-Prints bye message and exits application
+Prints goodbye message and exits application
 
 Example of usage:
 
