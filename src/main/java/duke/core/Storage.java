@@ -47,16 +47,23 @@ public class Storage {
         try {
             // Solution below adapted from https://www.geeksforgeeks.org/serialization-in-java/
             FileInputStream file = new FileInputStream(directoryPath + fileName);
-            ObjectInputStream in = new ObjectInputStream(file);
 
-            @SuppressWarnings("unchecked")
-            final List<Task> tasks = (List<Task>) in.readObject();
+            if (file.available() != 0) {
+                ObjectInputStream in = new ObjectInputStream(file);
 
-            in.close();
-            file.close();
+                @SuppressWarnings("unchecked")
+                final List<Task> tasks = (List<Task>) in.readObject();
 
-            isLoaded = true;
-            return tasks;
+                in.close();
+                file.close();
+
+                isLoaded = true;
+                return tasks;
+            } else {
+                file.close();
+                isLoaded = true;
+                return new ArrayList<>();
+            }
         } catch (FileNotFoundException e) {
             createFolder();
             boolean fileCreated = createDataFile();
